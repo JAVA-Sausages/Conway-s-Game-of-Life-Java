@@ -1,5 +1,9 @@
 # Conway-s-Game-of-Life-Java
 
+## What is Conway's Game of Life?
+
+[Wikipedia's definition of Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
+
 ## Project contributors
 
 - [Denis Shevchuk](https://github.com/WashingtonD) - roles

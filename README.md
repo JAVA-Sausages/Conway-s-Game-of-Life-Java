@@ -31,3 +31,5 @@ Secondary targets:
   - cell-alive state
   - cell-dead state
 - let user spawn as many concurrent game playgrounds as desired (multithreading)
+- let user change the speed of the game (might not be implemented)
+- let the user change the zoom and move the camera around the playground (might not be implemented)

@@ -2,9 +2,9 @@
 
 ## Project contributors
 
-- Denis Shevchuk
-- Maciej Luciński
-- Szymon Kaszuba-Gałka
+- [Denis Shevchuk](https://github.com/WashingtonD) - roles
+- [Maciej Luciński](https://github.com/Vyvr) - roles
+- [Szymon Kaszuba-Gałka](https://github.com/Szymonexis) - roles
 
 ## Project targets
 

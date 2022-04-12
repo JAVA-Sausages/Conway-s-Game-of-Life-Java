@@ -1,1 +1,1 @@
-# 3.2.-Projekt-Grupowy-Java
+# Conway-s-Game-of-Life-Java

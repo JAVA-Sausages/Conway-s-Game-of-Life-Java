@@ -1,5 +1,6 @@
 package com.example.conwaysgameoflifejava;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -14,5 +15,13 @@ public class MainController {
                 playgroundPane.widthProperty());
         canvas.heightProperty().bind(
                 playgroundPane.heightProperty());
+    }
+    public void startSimulation(ActionEvent actionEvent) {
+    }
+
+    public void stopSimulation(ActionEvent actionEvent) {
+    }
+
+    public void pauseSimulation(ActionEvent actionEvent) {
     }
 }

@@ -113,7 +113,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.conwaysgameoflifejava/com.example.conwaysgameoflifejava.HelloApplication
+                                com.example.conwaysgameoflifejava/com.example.conwaysgameoflifejava.MainApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

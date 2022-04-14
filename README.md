@@ -6,9 +6,9 @@
 
 ## Project contributors
 
-- [Denis Shevchuk](https://github.com/WashingtonD) - roles
-- [Maciej Luciński](https://github.com/Vyvr) - roles
-- [Szymon Kaszuba-Gałka](https://github.com/Szymonexis) - roles
+- [Denis Shevchuk](https://github.com/WashingtonD) - JavaFX design
+- [Maciej Luciński](https://github.com/Vyvr) - UI design
+- [Szymon Kaszuba-Gałka](https://github.com/Szymonexis) - algorythms and github management
 
 ## Project targets
 
@@ -31,8 +31,9 @@ Main tagret is to create an app that implements Conway's Game of Life in a 2-dim
 
 Secondary targets:
 
-- let the user to exapnd the gamefield to whatever proportions desired (or within some high enough constraints)
+- let the user to expand the gamefield to whatever proportions desired (or within some high enough constraints)
 - let the user change both cell color and background color
+- let user change cell size
 - let user change the underlying rules of the game:
     - cell-alive state
     - cell-dead state

@@ -1,4 +1,4 @@
-package com.example.conwaysgameoflifejava;
+package com.example.conwaysgameoflifejava.cell;
 
 import javafx.scene.paint.Color;
 
@@ -6,13 +6,11 @@ public class Cell {
     private double posX;
     private double posY;
     private boolean alive;
-    private Color color;
 
     public Cell(double posX, double posY) {
         this.posX = posX;
         this.posY = posY;
         alive = false;
-        color = Color.BLACK;
     }
 
     public double getPosX() {
@@ -36,19 +34,6 @@ public class Cell {
     }
 
     public void setAlive(boolean alive) {
-        if (alive) {
-            color = CellColor.ALIVE.getColor();
-        } else {
-            color = CellColor.DEAD.getColor();
-        }
         this.alive = alive;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
     }
 }

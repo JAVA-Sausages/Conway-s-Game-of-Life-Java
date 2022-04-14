@@ -8,34 +8,34 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import com.example.conwaysgameoflifejava.ResizableCanvas?>
+<?import com.example.conwaysgameoflifejava.customComponents.ResizableCanvas?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.conwaysgameoflifejava.MainController">
+<BorderPane  maxHeight="600.0" maxWidth="800.0" minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.conwaysgameoflifejava.MainController">
    <stylesheets>
       <URL value="@main.css" />
    </stylesheets>
    <left>
       <VBox styleClass="vbox" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="startButton" mnemonicParsing="false" onAction="#startSimulation" styleClass="button" text="Start">
+            <Button fx:id="startButton" onAction="#startSimulation" styleClass="button" text="Start">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin></Button>
-            <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopSimulation" styleClass="button" text="Stop">
+            <Button fx:id="stopButton" onAction="#stopSimulation" styleClass="button" text="Stop">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin></Button>
-            <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseSimulation" styleClass="button" text="Pause">
+            <Button fx:id="pauseButton" onAction="#pauseSimulation" styleClass="button" text="Pause">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin></Button>
             <Label styleClass="label" text="Background color" />
-            <ColorPicker fx:id="backgroundColorPicker" styleClass="button">
+            <ColorPicker fx:id="backgroundColorPicker" styleClass="button" onAction="#onSetBackgroundColor">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin></ColorPicker>
             <Label styleClass="label" text="Cells color" />
-            <ColorPicker fx:id="cellsColorPicker" styleClass="button">
+            <ColorPicker fx:id="cellsColorPicker" styleClass="button" onAction="#onSetCellColor">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin></ColorPicker>
@@ -43,7 +43,7 @@
    </left>
    <center>
       <Pane fx:id="playgroundPane" BorderPane.alignment="CENTER">
-         <ResizableCanvas fx:id="playground" onMouseClicked="#setCell" />
+         <ResizableCanvas fx:id="playground" onMouseClicked="#onSetCell" />
       </Pane>
    </center>
 </BorderPane>

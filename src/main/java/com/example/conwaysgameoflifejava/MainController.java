@@ -1,13 +1,28 @@
 package com.example.conwaysgameoflifejava;
 
+import com.example.conwaysgameoflifejava.cell.Cell;
+import com.example.conwaysgameoflifejava.cell.CellColor;
+import com.example.conwaysgameoflifejava.cell.CellProperty;
+import com.example.conwaysgameoflifejava.customComponents.ResizableCanvas;
+import com.example.conwaysgameoflifejava.gameLogic.GameState;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class MainController {
     public Pane playgroundPane;
     public ResizableCanvas playground;
-
+    public Button startButton;
+    public Button stopButton;
+    public Button pauseButton;
+    public ColorPicker backgroundColorPicker;
+    public ColorPicker cellsColorPicker;
+    private GameState gameState;
     private Cell[][] cells;
 
     public void initialize() {
@@ -16,20 +31,16 @@ public class MainController {
         playground.heightProperty().bind(
                 playgroundPane.heightProperty());
 
-        double playgroundWidth = playground.getWidth();
-        double playgroundHeight = playground.getHeight();
+        backgroundColorPicker.setValue(Color.BLACK);
 
-        int cellsXCount = (int) playgroundWidth / CellProperty.SIZE.getValue();
-        int cellsYCount = (int) playgroundHeight / CellProperty.SIZE.getValue();
-
-        cells = new Cell[cellsXCount][cellsYCount];
-
-        for (int i = 0; i < cellsXCount; i++) {
-            for (int j = 0; j < cellsYCount; j++) {
-                cells[i][j] = new Cell(i * CellProperty.SIZE.getValue(),
-                        j * CellProperty.SIZE.getValue());
-            }
-        }
+        Platform.runLater(() -> {
+            gameState = new GameState(
+                playground.getWidth(),
+                playground.getHeight()
+            );
+            cells = gameState.getCells();
+            playground.drawPlayground(cells);
+        });
     }
 
     public void startSimulation(ActionEvent actionEvent) {
@@ -44,7 +55,28 @@ public class MainController {
 
     }
 
-    public void setCell(MouseEvent mouseEvent) {
+    public void onSetCell(MouseEvent mouseEvent) {
+        double posX = mouseEvent.getX();
+        double posY = mouseEvent.getY();
 
+        double squarePosX = posX - posX % CellProperty.SIZE.getValue();
+        double squarePosY = posY - posY % CellProperty.SIZE.getValue();
+
+        gameState.setAliveCell(squarePosX, squarePosY);
+        playground.drawPlayground(cells);
+    }
+
+    public void onSetCellColor(ActionEvent actionEvent) {
+        CellColor.ALIVE.setColor(cellsColorPicker.getValue());
+        if (cells != null) {
+            playground.drawPlayground(cells);
+        }
+    }
+
+    public void onSetBackgroundColor(ActionEvent actionEvent) {
+        CellColor.DEAD.setColor(backgroundColorPicker.getValue());
+        if (cells != null) {
+            playground.drawPlayground(cells);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.conwaysgameoflifejava;
+package com.example.conwaysgameoflifejava.cell;
 
 public enum CellProperty {
     SIZE(10);

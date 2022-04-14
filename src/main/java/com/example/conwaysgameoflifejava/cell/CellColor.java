@@ -1,4 +1,4 @@
-package com.example.conwaysgameoflifejava;
+package com.example.conwaysgameoflifejava.cell;
 
 import javafx.scene.paint.Color;
 

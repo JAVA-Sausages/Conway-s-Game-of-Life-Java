@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 public class MainController {
+    public Pane playgroundPane;
 
     public void initialize() {
         ResizableCanvas canvas = new ResizableCanvas();
@@ -14,5 +15,4 @@ public class MainController {
         canvas.heightProperty().bind(
                 playgroundPane.heightProperty());
     }
-    public Pane playgroundPane;
 }

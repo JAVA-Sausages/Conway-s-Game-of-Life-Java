@@ -6,9 +6,9 @@
 
 ## Project contributors
 
-- [Denis Shevchuk](https://github.com/WashingtonD) - JavaFX
-- [Maciej Luciński](https://github.com/Vyvr) - UI design
-- [Szymon Kaszuba-Gałka](https://github.com/Szymonexis) - algorythms and github management
+- [Denis Shevchuk](https://github.com/WashingtonD) - JavaFX, algorithms
+- [Maciej Luciński](https://github.com/Vyvr) - UI design, features
+- [Szymon Kaszuba-Gałka](https://github.com/Szymonexis) - project design, algorithms, github management
 
 ## Project targets
 

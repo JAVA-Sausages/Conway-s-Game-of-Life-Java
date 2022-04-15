@@ -85,11 +85,6 @@ public void newGeneration(){
                 }
 
                 if(cells[x][y].isAlive())
-                    /*switch (living_neighbours <= CellRule.HUNGER.getNeighbours()
-                            ? 0 : living_neighbours >= CellRule.OVERPOPULATION.getNeighbours()
-                            ? 1 : 2) {
-                        case 0, 1 -> tempCells[x][y].setAlive(false);
-                    }*/
                     if(living_neighbours <= CellRule.HUNGER.getNeighbours() ||
                             living_neighbours >= CellRule.OVERPOPULATION.getNeighbours())
                         tempCells[x][y].setAlive(false);

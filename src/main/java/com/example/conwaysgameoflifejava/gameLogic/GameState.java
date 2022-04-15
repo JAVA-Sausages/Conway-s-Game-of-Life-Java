@@ -54,4 +54,48 @@ public class GameState {
     public void setPlaygroundHeight(double height) {
         playgroundHeight = height;
     }
+
+public void newGeneration(){
+        int cellsXcount = (int) (playgroundWidth / CellProperty.SIZE.getValue());
+        int cellsYcount = (int) (playgroundHeight / CellProperty.SIZE.getValue());
+
+        CellColor[][] tempLifeTable = new CellColor[cellsXcount][cellsXcount];
+
+        int living_neighbours;
+        //Iterate through the whole grid
+        for(int x = 0; x < cellsXcount; x++){
+            for(int y = 0; y < cellsYcount; y++) {
+                living_neighbours = 0;
+
+                // Iterating through the neighbours
+                for(int i = -1; i < 2; i++){
+                    for(int j = -1; j < 2; j++){
+                        // Excluding self-cell
+                        if((x+i < cellsXcount && y+j < cellsYcount) && !(i == 0 && j == 0)) {
+                            {
+                                if (cells[x + i][y + j].isAlive()) {
+                                    living_neighbours++;
+                                }
+                            }
+                        }
+                    }
+                }
+                tempLifeTable[x][y] = (cells[x][y].isAlive() ? ((living_neighbours == 3 || living_neighbours == 2) ?
+                        CellColor.ALIVE : CellColor.DEAD): living_neighbours == 3 ?
+                         CellColor.ALIVE : CellColor.DEAD);
+            }
+        }
+        for(int x = 0; x < cellsXcount; x++){
+            for(int y = 0; y < cellsYcount; y++){
+                switch (tempLifeTable[x][y]) {
+                    case ALIVE -> cells[x][y].setAlive(true);
+                    case DEAD -> cells[x][y].setAlive(false);
+                }
+            }
+        }
+
+
+    }
+
+
 }

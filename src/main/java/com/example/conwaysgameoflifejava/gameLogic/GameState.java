@@ -2,31 +2,13 @@ package com.example.conwaysgameoflifejava.gameLogic;
 
 import com.example.conwaysgameoflifejava.cell.Cell;
 import com.example.conwaysgameoflifejava.cell.CellProperty;
+import com.example.conwaysgameoflifejava.cell.CellRule;
 import com.example.conwaysgameoflifejava.customComponents.ResizableCanvas;
 
 public class GameState {
     private double playgroundWidth;
     private double playgroundHeight;
     private Cell[][] cells;
-
-    public enum CellRule{
-        SPAWN(3),
-        KEEP(2,3),
-        OVERPOPULATION(4,-1),
-        HUNGER(0,1);
-
-         CellRule(int neighbours){
-            this.lower_edge = neighbours;
-            this.higher_edge = neighbours;
-        }
-        CellRule(int lower,int higher) {
-            this.lower_edge = lower;
-            this.higher_edge = higher;
-        }
-
-        private final int lower_edge;
-        private final int higher_edge;
-    }
 
 
 
@@ -79,7 +61,7 @@ public class GameState {
 public void newGeneration(){
         int cellsXcount = (int) (playgroundWidth / CellProperty.SIZE.getValue());
         int cellsYcount = (int) (playgroundHeight / CellProperty.SIZE.getValue());
-        Cell[][]tempLife = cells;
+        Cell[][]tempCells = cells;
 
 
         int living_neighbours;
@@ -101,11 +83,22 @@ public void newGeneration(){
                         }
                     }
                 }
-                tempLife[x][y].setAlive((cells[x][y].isAlive() ?
-                         (living_neighbours == CellRule.KEEP.lower_edge || living_neighbours == CellRule.KEEP.higher_edge)
-                        : living_neighbours == CellRule.SPAWN.higher_edge));
+
+                if(cells[x][y].isAlive())
+                    /*switch (living_neighbours <= CellRule.HUNGER.getNeighbours()
+                            ? 0 : living_neighbours >= CellRule.OVERPOPULATION.getNeighbours()
+                            ? 1 : 2) {
+                        case 0, 1 -> tempCells[x][y].setAlive(false);
+                    }*/
+                    if(living_neighbours <= CellRule.HUNGER.getNeighbours() ||
+                            living_neighbours >= CellRule.OVERPOPULATION.getNeighbours())
+                        tempCells[x][y].setAlive(false);
+                else
+                    if(living_neighbours == CellRule.SPAWN.getNeighbours())
+                        tempCells[x][y].setAlive(true);
+
             }
         }
-        cells = tempLife;
+        cells = tempCells;
     }
 }

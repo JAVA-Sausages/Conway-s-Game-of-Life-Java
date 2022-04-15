@@ -7,7 +7,28 @@ import com.example.conwaysgameoflifejava.customComponents.ResizableCanvas;
 public class GameState {
     private double playgroundWidth;
     private double playgroundHeight;
-    private final Cell[][] cells;
+    private Cell[][] cells;
+
+    public enum CellRule{
+        SPAWN(3),
+        KEEP(2,3),
+        OVERPOPULATION(4,-1),
+        HUNGER(0,1);
+
+         CellRule(int neighbours){
+            this.lower_edge = neighbours;
+            this.higher_edge = neighbours;
+        }
+        CellRule(int lower,int higher) {
+            this.lower_edge = lower;
+            this.higher_edge = higher;
+        }
+
+        private final int lower_edge;
+        private final int higher_edge;
+    }
+
+
 
     public GameState(double width, double height) {
         this.playgroundWidth = width;
@@ -58,8 +79,8 @@ public class GameState {
 public void newGeneration(){
         int cellsXcount = (int) (playgroundWidth / CellProperty.SIZE.getValue());
         int cellsYcount = (int) (playgroundHeight / CellProperty.SIZE.getValue());
+        Cell[][]tempLife = cells;
 
-        CellColor[][] tempLifeTable = new CellColor[cellsXcount][cellsXcount];
 
         int living_neighbours;
         //Iterate through the whole grid
@@ -68,10 +89,10 @@ public void newGeneration(){
                 living_neighbours = 0;
 
                 // Iterating through the neighbours
-                for(int i = -1; i < 2; i++){
-                    for(int j = -1; j < 2; j++){
+                for(int i = -1; i < 2; i++) {
+                    for (int j = -1; j < 2; j++) {
                         // Excluding self-cell
-                        if((x+i < cellsXcount && y+j < cellsYcount) && !(i == 0 && j == 0)) {
+                        if ((x + i < cellsXcount && y + j < cellsYcount) && !(i == 0 && j == 0)) {
                             {
                                 if (cells[x + i][y + j].isAlive()) {
                                     living_neighbours++;
@@ -80,22 +101,11 @@ public void newGeneration(){
                         }
                     }
                 }
-                tempLifeTable[x][y] = (cells[x][y].isAlive() ? ((living_neighbours == 3 || living_neighbours == 2) ?
-                        CellColor.ALIVE : CellColor.DEAD): living_neighbours == 3 ?
-                         CellColor.ALIVE : CellColor.DEAD);
+                tempLife[x][y].setAlive((cells[x][y].isAlive() ?
+                         (living_neighbours == CellRule.KEEP.lower_edge || living_neighbours == CellRule.KEEP.higher_edge)
+                        : living_neighbours == CellRule.SPAWN.higher_edge));
             }
         }
-        for(int x = 0; x < cellsXcount; x++){
-            for(int y = 0; y < cellsYcount; y++){
-                switch (tempLifeTable[x][y]) {
-                    case ALIVE -> cells[x][y].setAlive(true);
-                    case DEAD -> cells[x][y].setAlive(false);
-                }
-            }
-        }
-
-
+        cells = tempLife;
     }
-
-
 }

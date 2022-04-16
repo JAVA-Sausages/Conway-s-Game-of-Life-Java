@@ -19,7 +19,13 @@ public class GameClock {
 
     public void start() {
         executor = new ScheduledThreadPoolExecutor(1);
-        executor.scheduleAtFixedRate(gameState::nextGeneration, 0, tick, TimeUnit.MILLISECONDS);
+        executor.scheduleAtFixedRate(() -> {
+            gameState.nextGeneration();
+            if (gameState.isAllCellsDead()) {
+                executor.shutdown();
+                running = false;
+            }
+        }, 0, tick, TimeUnit.MILLISECONDS);
         running = true;
     }
 

@@ -83,6 +83,7 @@ public class GameState {
         }
         cells = tempCells;
         playground.drawPlayground(cells);
+        checkAllCellsDead();
     }
 
 

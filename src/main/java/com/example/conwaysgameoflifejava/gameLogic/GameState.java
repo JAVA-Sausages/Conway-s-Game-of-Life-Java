@@ -64,8 +64,9 @@ public void newGeneration(){
         Cell[][]tempCells = cells;
 
 
-        int living_neighbours;
+        //int living_neighbours;
         //Iterate through the whole grid
+    /*
         for(int x = 0; x < cellsXcount; x++){
             for(int y = 0; y < cellsYcount; y++) {
                 living_neighbours = 0;
@@ -94,6 +95,51 @@ public void newGeneration(){
 
             }
         }
-        cells = tempCells;
+        cells = tempCells;*/
+
+        for(int posXinArray = 0; posXinArray < cellsXcount; posXinArray++)
+            for(int posYinArray = 0; posYinArray < cellsYcount; posYinArray++){
+                if(!cells[posXinArray][posYinArray].isAlive() && cells[posXinArray][posYinArray].getAliveNeighbours() < CellRule.HUNGER.getNeighbours())
+                    continue;
+                if(cells[posXinArray][posYinArray].isAlive())
+                    if(cells[posXinArray][posYinArray].getAliveNeighbours() <= CellRule.HUNGER.getNeighbours() ||
+                            cells[posXinArray][posYinArray].getAliveNeighbours() >= CellRule.OVERPOPULATION.getNeighbours()) {
+                        tempCells[posXinArray][posYinArray].setAlive(false);
+                        updateLiveNeighboursCount(cells[posXinArray][posYinArray],posXinArray,posYinArray,false);
+                    }
+                    else
+                        if(cells[posXinArray][posYinArray].getAliveNeighbours() == CellRule.SPAWN.getNeighbours()) {
+                            tempCells[posXinArray][posYinArray].setAlive(true);
+                            updateLiveNeighboursCount(cells[posXinArray][posYinArray],posXinArray,posYinArray,true);
+                        }
+            }
+       cells = tempCells;
+    }
+
+
+    public void updateLiveNeighboursCount(Cell cell, int positionInArrayX, int positionIntArrayY, boolean increment){
+        int cellsXcount = (int) (playgroundWidth / CellProperty.SIZE.getValue());
+        int cellsYcount = (int) (playgroundHeight / CellProperty.SIZE.getValue());
+
+
+        if(positionInArrayX == -4 || positionIntArrayY == -4){
+         for(int i = 0; i < cellsXcount; i++)
+             for(int j = 0; j< cellsYcount; j++)
+                if(cells[i][j] == cell){
+                    positionInArrayX = i;
+                    positionIntArrayY = j;
+                }
+        }
+
+        for(int offsetPosX = -1; offsetPosX < 2; offsetPosX++)
+            for(int offsetPosY = -1; offsetPosY < 2; offsetPosY++) {
+                if ((positionInArrayX + offsetPosX < cellsXcount && positionInArrayX + offsetPosX > 0) &&
+                        (positionIntArrayY + offsetPosY < cellsYcount && positionIntArrayY + offsetPosY > 0)) {
+                        if(increment)
+                            cells[positionInArrayX + offsetPosX][positionIntArrayY + offsetPosY].incrementAliveNeighbours();
+                        else
+                            cells[positionInArrayX + offsetPosX][positionIntArrayY + offsetPosY].decrementAliveNeighbours();
+                }
+            }
     }
 }

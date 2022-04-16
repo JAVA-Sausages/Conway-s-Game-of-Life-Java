@@ -8,7 +8,7 @@
 
 - [Denis Shevchuk](https://github.com/WashingtonD) - JavaFX, algorithms
 - [Maciej Luciński](https://github.com/Vyvr) - UI design, features
-- [Szymon Kaszuba-Gałka](https://github.com/Szymonexis) - project design, algorithms, github management
+- [Szymon Kaszuba-Gałka](https://github.com/Szymonexis) - project design, algorithms
 
 ## Project targets
 

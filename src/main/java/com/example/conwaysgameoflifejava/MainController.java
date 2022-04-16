@@ -10,9 +10,14 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
+import javafx.scene.paint.Paint;
+
+import java.util.List;
 
 public class MainController {
     public Pane playgroundPane;
@@ -22,6 +27,8 @@ public class MainController {
     public Button pauseButton;
     public ColorPicker backgroundColorPicker;
     public ColorPicker cellsColorPicker;
+    public VBox leftVBox;
+    public Button changeThemeButton;
     private GameState gameState;
     private Cell[][] cells;
 
@@ -41,6 +48,9 @@ public class MainController {
             cells = gameState.getCells();
             playground.drawPlayground(cells);
         });
+
+//        leftVBox.setStyle("-fx-background-color: RED");
+
     }
 
     public void startSimulation(ActionEvent actionEvent) {
@@ -78,5 +88,32 @@ public class MainController {
         if (cells != null) {
             playground.drawPlayground(cells);
         }
+    }
+
+    public void changeTheme(ActionEvent actionEvent) {
+//        leftVBox.lookup(".chart-plot-background");
+//        leftVBox.getCssMetaData().stream()
+//                .filter(p -> p.getProperty().equals("-fx-region-background"))
+//                .findFirst()
+//                .ifPresent(System.out::println);
+
+
+        Background bg = leftVBox.getBackground();
+        List<BackgroundFill> fills = bg.getFills();
+        System.out.println(bg);
+        BackgroundFill col = fills.get(0);
+        Paint paint = col.getFill();
+
+        String hexaColor = paint.toString();
+        String expectedColor = "0xff0000ff";
+
+        if(expectedColor.equals(hexaColor)) {
+            leftVBox.setStyle("-fx-background-color: '0000ffff'");
+        } else {
+            leftVBox.setStyle("-fx-background-color: 'ff0000ff'");
+        }
+
+
+
     }
 }

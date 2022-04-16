@@ -6,6 +6,8 @@ import com.example.conwaysgameoflifejava.cell.CellProperty;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.ArrayList;
+
 public class ResizableCanvas extends Canvas {
     public ResizableCanvas() {
         // Redraw canvas when size changes.
@@ -17,10 +19,10 @@ public class ResizableCanvas extends Canvas {
         GraphicsContext gc = getGraphicsContext2D();
     }
 
-    public void drawPlayground(Cell[][] cells) {
+    public void drawPlayground(ArrayList<ArrayList<Cell>> cells) {
         GraphicsContext gc = getGraphicsContext2D();
-        for (Cell[] cellRow: cells) {
-            for (Cell cell : cellRow) {
+        for (ArrayList<Cell> cellRow: cells) {
+            for ( Cell cell : cellRow) {
                 gc.setFill(cell.isAlive() ?
                         CellColor.ALIVE.getColor() : CellColor.DEAD.getColor());
                 gc.fillRect(cell.getPosX(), cell.getPosY(),

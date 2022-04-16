@@ -1,30 +1,34 @@
 package com.example.conwaysgameoflifejava.gameLogic;
 
 import com.example.conwaysgameoflifejava.cell.Cell;
+import com.example.conwaysgameoflifejava.cell.CellNeighbour;
 import com.example.conwaysgameoflifejava.cell.CellProperty;
 import com.example.conwaysgameoflifejava.cell.CellRule;
-import com.example.conwaysgameoflifejava.customComponents.ResizableCanvas;
+
+import java.util.ArrayList;
 
 public class GameState {
     private double playgroundWidth;
     private double playgroundHeight;
-    private Cell[][] cells;
-
-
+    private final int cellsXCount;
+    private final int cellsYCount;
+    private ArrayList<ArrayList<Cell>> cells;
 
     public GameState(double width, double height) {
         this.playgroundWidth = width;
         this.playgroundHeight = height;
 
-        int cellsXCount = (int) (playgroundWidth / CellProperty.SIZE.getValue());
-        int cellsYCount = (int) (playgroundHeight / CellProperty.SIZE.getValue());
+        cellsXCount = (int) (playgroundWidth / CellProperty.SIZE.getValue());
+        cellsYCount = (int) (playgroundHeight / CellProperty.SIZE.getValue());
 
-        cells = new Cell[cellsXCount][cellsYCount];
+        cells = new ArrayList<>();
 
         for (int i = 0; i < cellsXCount; i++) {
+            cells.add(new ArrayList<>());
+            ArrayList<Cell> cellsArr = cells.get(i);
             for (int j = 0; j < cellsYCount; j++) {
-                cells[i][j] = new Cell(i * CellProperty.SIZE.getValue(),
-                        j * CellProperty.SIZE.getValue());
+                cellsArr.add(new Cell(i * CellProperty.SIZE.getValue(),
+                        j * CellProperty.SIZE.getValue()));
             }
         }
     }
@@ -33,12 +37,14 @@ public class GameState {
         int x = (int) posX / CellProperty.SIZE.getValue();
         int y = (int) posY / CellProperty.SIZE.getValue();
 
-        cells[x][y].setAlive(true);
-        cells[x][y].setPosX(posX);
-        cells[x][y].setPosY(posY);
+        Cell cell = cells.get(x).get(y);
+
+        cell.setAlive(true);
+        cell.setPosX(posX);
+        cell.setPosY(posY);
     }
 
-    public Cell[][] getCells() {
+    public ArrayList<ArrayList<Cell>> getCells() {
         return cells;
     }
 
@@ -58,88 +64,111 @@ public class GameState {
         playgroundHeight = height;
     }
 
-public void newGeneration(){
-        int cellsXcount = (int) (playgroundWidth / CellProperty.SIZE.getValue());
-        int cellsYcount = (int) (playgroundHeight / CellProperty.SIZE.getValue());
-        Cell[][]tempCells = cells;
+    public void nextGeneration() {
+        ArrayList<ArrayList<Cell>> tempCells = cells;
 
+        updateAliveNeighboursCount();
 
-        //int living_neighbours;
-        //Iterate through the whole grid
-    /*
-        for(int x = 0; x < cellsXcount; x++){
-            for(int y = 0; y < cellsYcount; y++) {
-                living_neighbours = 0;
+        for (ArrayList<Cell> cellsRow : cells) {
+            for (Cell lastGenCell : cellsRow) {
+                int posX = lastGenCell.getArrayPosX();
+                int poxY = lastGenCell.getArrayPosY();
+                Cell nextGenCell = tempCells.get(posX).get(poxY);
 
-                // Iterating through the neighbours
-                for(int i = -1; i < 2; i++) {
-                    for (int j = -1; j < 2; j++) {
-                        // Excluding self-cell
-                        if ((x + i < cellsXcount && y + j < cellsYcount) && !(i == 0 && j == 0)) {
-                            {
-                                if (cells[x + i][y + j].isAlive()) {
-                                    living_neighbours++;
-                                }
-                            }
-                        }
-                    }
+                if (!lastGenCell.isAlive()) {
+                    nextGenCell.setAlive(lastGenCell.getAliveNeighbours() == CellRule.SPAWN.getNeighbours());
+                } else {
+                    nextGenCell.setAlive(lastGenCell.getAliveNeighbours() == CellRule.KEEP.getNeighbours()
+                            || lastGenCell.getAliveNeighbours() == CellRule.SPAWN.getNeighbours());
                 }
-
-                if(cells[x][y].isAlive())
-                    if(living_neighbours <= CellRule.HUNGER.getNeighbours() ||
-                            living_neighbours >= CellRule.OVERPOPULATION.getNeighbours())
-                        tempCells[x][y].setAlive(false);
-                else
-                    if(living_neighbours == CellRule.SPAWN.getNeighbours())
-                        tempCells[x][y].setAlive(true);
-
             }
         }
-        cells = tempCells;*/
-
-        for(int posXinArray = 0; posXinArray < cellsXcount; posXinArray++)
-            for(int posYinArray = 0; posYinArray < cellsYcount; posYinArray++){
-                if(!cells[posXinArray][posYinArray].isAlive() && cells[posXinArray][posYinArray].getAliveNeighbours() < CellRule.HUNGER.getNeighbours())
-                    continue;
-                if(cells[posXinArray][posYinArray].isAlive())
-                    if(cells[posXinArray][posYinArray].getAliveNeighbours() <= CellRule.HUNGER.getNeighbours() ||
-                            cells[posXinArray][posYinArray].getAliveNeighbours() >= CellRule.OVERPOPULATION.getNeighbours()) {
-                        tempCells[posXinArray][posYinArray].setAlive(false);
-                        updateLiveNeighboursCount(cells[posXinArray][posYinArray],posXinArray,posYinArray,false);
-                    }
-                    else
-                        if(cells[posXinArray][posYinArray].getAliveNeighbours() == CellRule.SPAWN.getNeighbours()) {
-                            tempCells[posXinArray][posYinArray].setAlive(true);
-                            updateLiveNeighboursCount(cells[posXinArray][posYinArray],posXinArray,posYinArray,true);
-                        }
-            }
-       cells = tempCells;
+        cells = tempCells;
     }
 
 
-    public void updateLiveNeighboursCount(Cell cell, int positionInArrayX, int positionIntArrayY, boolean increment){
-        int cellsXcount = (int) (playgroundWidth / CellProperty.SIZE.getValue());
-        int cellsYcount = (int) (playgroundHeight / CellProperty.SIZE.getValue());
+    private void updateAliveNeighboursCount() {
+        for (ArrayList<Cell> cellsRow : cells) {
+            for (Cell cell : cellsRow) {
+                CellNeighbour[] cellNeighbourTypes = CellNeighbour.values();
+                ArrayList<Cell> neighbourCells = new ArrayList<>(cellNeighbourTypes.length);
 
-
-        if(positionInArrayX == -4 || positionIntArrayY == -4){
-         for(int i = 0; i < cellsXcount; i++)
-             for(int j = 0; j< cellsYcount; j++)
-                if(cells[i][j] == cell){
-                    positionInArrayX = i;
-                    positionIntArrayY = j;
+                for (CellNeighbour neighbourType : cellNeighbourTypes) {
+                    neighbourCells.add(getNeighbour(cell.getArrayPosX(), cell.getArrayPosY(), neighbourType));
                 }
-        }
 
-        for(int offsetPosX = -1; offsetPosX < 2; offsetPosX++)
-            for(int offsetPosY = -1; offsetPosY < 2; offsetPosY++) {
-                if ((positionInArrayX + offsetPosX < cellsXcount && positionInArrayX + offsetPosX > 0) &&
-                        (positionIntArrayY + offsetPosY < cellsYcount && positionIntArrayY + offsetPosY > 0)) {
-                        if(increment)
-                            cells[positionInArrayX + offsetPosX][positionIntArrayY + offsetPosY].incrementAliveNeighbours();
-                        else
-                            cells[positionInArrayX + offsetPosX][positionIntArrayY + offsetPosY].decrementAliveNeighbours();
+                int aliveNeighboursCount = 0;
+                for (Cell neighbourCell : neighbourCells) {
+                    if (neighbourCell != null && neighbourCell.isAlive()) {
+                        aliveNeighboursCount += 1;
+                    }
+                }
+                cell.setAliveNeighbours(aliveNeighboursCount);
+            }
+        }
+    }
+
+    private Cell getNeighbour(int cellPosX, int cellPosY, CellNeighbour cellNeighbour) {
+        int posOffset = 1;
+
+        switch (cellNeighbour) {
+            case TOP -> {
+                try {
+                    return cells.get(cellPosX).get(cellPosY - posOffset);
+                } catch (IndexOutOfBoundsException e) {
+                    return null;
                 }
             }
+            case BOTTOM -> {
+                try {
+                    return cells.get(cellPosX).get(cellPosY + posOffset);
+                } catch (IndexOutOfBoundsException e) {
+                    return null;
+                }
+            }
+            case LEFT -> {
+                try {
+                    return cells.get(cellPosX - posOffset).get(cellPosY);
+                } catch (IndexOutOfBoundsException e) {
+                    return null;
+                }
+            }
+            case RIGHT -> {
+                try {
+                    return cells.get(cellPosX + posOffset).get(cellPosY);
+                } catch (IndexOutOfBoundsException e) {
+                    return null;
+                }
+            }
+            case TOP_LEFT -> {
+                try {
+                    return cells.get(cellPosX - posOffset).get(cellPosY - posOffset);
+                } catch (IndexOutOfBoundsException e) {
+                    return null;
+                }
+            }
+            case TOP_RIGHT -> {
+                try {
+                    return cells.get(cellPosX + posOffset).get(cellPosY - posOffset);
+                } catch (IndexOutOfBoundsException e) {
+                    return null;
+                }
+            }
+            case BOTTOM_LEFT -> {
+                try {
+                    return cells.get(cellPosX - posOffset).get(cellPosY + posOffset);
+                } catch (IndexOutOfBoundsException e) {
+                    return null;
+                }
+            }
+            case BOTTOM_RIGHT -> {
+                try {
+                    return cells.get(cellPosX + posOffset).get(cellPosY + posOffset);
+                } catch (IndexOutOfBoundsException e) {
+                    return null;
+                }
+            }
+        }
+        return null;
     }
 }

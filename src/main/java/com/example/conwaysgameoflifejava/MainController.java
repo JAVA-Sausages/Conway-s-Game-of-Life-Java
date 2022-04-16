@@ -14,6 +14,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class MainController {
     public Pane playgroundPane;
     public ResizableCanvas playground;
@@ -23,7 +25,7 @@ public class MainController {
     public ColorPicker backgroundColorPicker;
     public ColorPicker cellsColorPicker;
     private GameState gameState;
-    private Cell[][] cells;
+    private ArrayList<ArrayList<Cell>> cells;
 
     public void initialize() {
         playground.widthProperty().bind(
@@ -44,7 +46,8 @@ public class MainController {
     }
 
     public void startSimulation(ActionEvent actionEvent) {
-
+        gameState.nextGeneration();
+        playground.drawPlayground(cells);
     }
 
     public void stopSimulation(ActionEvent actionEvent) {

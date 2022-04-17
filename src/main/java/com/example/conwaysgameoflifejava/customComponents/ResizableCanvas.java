@@ -19,7 +19,7 @@ public class ResizableCanvas extends Canvas {
         GraphicsContext gc = getGraphicsContext2D();
     }
 
-    public void drawPlayground(ArrayList<ArrayList<Cell>> cells) {
+    public void draw(ArrayList<ArrayList<Cell>> cells) {
         GraphicsContext gc = getGraphicsContext2D();
         for (ArrayList<Cell> cellRow: cells) {
             for ( Cell cell : cellRow) {

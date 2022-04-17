@@ -4,17 +4,14 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class GameClock {
-    private int tick = 100;
+    private int tick = GameProperty.TICK.getValue();
     private final GameState gameState;
     private ScheduledThreadPoolExecutor executor;
     private boolean running = false;
 
     public GameClock(GameState gameState) {
         this.gameState = gameState;
-    }
-    public GameClock(GameState gameState, int tick) {
-        this.gameState = gameState;
-        this.tick = tick;
+        executor = new ScheduledThreadPoolExecutor(1);
     }
 
     public void start() {
@@ -55,6 +52,7 @@ public class GameClock {
     public void setTick(int tick) {
         boolean wasRunning = !executor.isShutdown();
         this.tick = tick;
+        GameProperty.TICK.setValue(tick);
 
         if (wasRunning) {
             reset();

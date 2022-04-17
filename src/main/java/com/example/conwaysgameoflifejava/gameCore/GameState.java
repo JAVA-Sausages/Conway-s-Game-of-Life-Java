@@ -60,7 +60,6 @@ public class GameState {
             System.err.println("cells.lengthX: " + cells.toArray().length);
             System.err.println("cells.lengthY: " + cells.get(0).toArray().length);
             System.out.println("-----------------------");
-            render();
         }
     }
 

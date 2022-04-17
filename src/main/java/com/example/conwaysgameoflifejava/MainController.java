@@ -62,8 +62,8 @@ public class MainController {
             double posX = mouseEvent.getX();
             double posY = mouseEvent.getY();
 
-            double cellPosX = posX - posX % CellProperty.SIZE.getValue();
-            double cellPosY = posY - posY % CellProperty.SIZE.getValue();
+            double cellPosX = posX - (posX % CellProperty.SIZE.getValue());
+            double cellPosY = posY - (posY % CellProperty.SIZE.getValue());
 
             if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                 gameState.setDeadCell(cellPosX, cellPosY);

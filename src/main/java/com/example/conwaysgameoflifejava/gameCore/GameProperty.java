@@ -1,12 +1,12 @@
-package com.example.conwaysgameoflifejava.cell;
+package com.example.conwaysgameoflifejava.gameCore;
 
-public enum CellProperty {
-    SIZE(10);
+public enum GameProperty {
+    TICK(100);
 
     private int value;
 
-    CellProperty(int value) {
-        this.value = Math.max(value, 10);
+    GameProperty(int value) {
+        this.value = Math.max(value, 100);
     }
 
     public int getValue() {

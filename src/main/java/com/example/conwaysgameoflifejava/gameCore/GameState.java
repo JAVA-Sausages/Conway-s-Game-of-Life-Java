@@ -28,7 +28,7 @@ public class GameState {
             }
         }
 
-        this.playground.drawPlayground(cells);
+        render();
     }
 
     public void setAliveCell(double posX, double posY) {
@@ -42,11 +42,26 @@ public class GameState {
     }
 
     private void setCell(double posX, double posY, boolean isAlive) {
-        int cellArrayPosX = (int) posX / CellProperty.SIZE.getValue();
-        int cellArrayPosY = (int) posY / CellProperty.SIZE.getValue();
+        int cellArrayPosX = (int) (posX / CellProperty.SIZE.getValue());
+        int cellArrayPosY = (int) (posY / CellProperty.SIZE.getValue());
 
-        cells.get(cellArrayPosX).get(cellArrayPosY).setAlive(isAlive);
-        playground.drawPlayground(cells);
+        try {
+            cells.get(cellArrayPosX).get(cellArrayPosY).setAlive(isAlive);
+            render();
+        } catch (IndexOutOfBoundsException e) {
+            // TODO: seems to be a bug related to clock threading pool - might need to investigate.
+            //  For now restraints need to be in place such as minimum 100ms GameClock tick
+            //  and minimum 10 pixel cell size
+            System.err.println(e.getMessage());
+            System.err.println("posX: " + posX);
+            System.err.println("posY: " + posY);
+            System.err.println("cellArrayPosX: " + cellArrayPosX);
+            System.err.println("cellArrayPosY: " + cellArrayPosY);
+            System.err.println("cells.lengthX: " + cells.toArray().length);
+            System.err.println("cells.lengthY: " + cells.get(0).toArray().length);
+            System.out.println("-----------------------");
+            render();
+        }
     }
 
     private void checkAllCellsDead() {
@@ -59,7 +74,7 @@ public class GameState {
     }
 
     public void render() {
-        playground.drawPlayground(cells);
+        playground.draw(cells);
     }
 
     public void nextGeneration() {
@@ -82,7 +97,7 @@ public class GameState {
             }
         }
         cells = tempCells;
-        playground.drawPlayground(cells);
+        render();
         checkAllCellsDead();
     }
 
@@ -178,7 +193,7 @@ public class GameState {
                 cell.setAlive(false);
             }
         }
-        playground.drawPlayground(cells);
+        render();
     }
 
     public ResizableCanvas getPlayground() {

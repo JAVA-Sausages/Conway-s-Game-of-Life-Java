@@ -15,20 +15,24 @@ public class GameClock {
     }
 
     public void start() {
-        executor = new ScheduledThreadPoolExecutor(1);
-        executor.scheduleAtFixedRate(() -> {
-            gameState.nextGeneration();
-            if (gameState.isAllCellsDead()) {
-                executor.shutdown();
-                running = false;
-            }
-        }, 0, tick, TimeUnit.MILLISECONDS);
-        running = true;
+        if (!running) {
+            executor = new ScheduledThreadPoolExecutor(1);
+            executor.scheduleAtFixedRate(() -> {
+                gameState.nextGeneration();
+                if (gameState.isAllCellsDead()) {
+                    executor.shutdown();
+                    running = false;
+                }
+            }, 0, tick, TimeUnit.MILLISECONDS);
+            running = true;
+        }
     }
 
     public void stop() {
-        executor.shutdown();
-        running = false;
+        if (running) {
+            executor.shutdown();
+            running = false;
+        }
     }
 
     private void reset() {

@@ -4,15 +4,16 @@ import com.example.conwaysgameoflifejava.cell.Cell;
 import com.example.conwaysgameoflifejava.cell.CellColor;
 import com.example.conwaysgameoflifejava.cell.CellProperty;
 import com.example.conwaysgameoflifejava.customComponents.ResizableCanvas;
-import com.example.conwaysgameoflifejava.gameLogic.GameState;
+import com.example.conwaysgameoflifejava.gameCore.GameClock;
+import com.example.conwaysgameoflifejava.gameCore.GameState;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class MainController {
     public ColorPicker backgroundColorPicker;
     public ColorPicker cellsColorPicker;
     private GameState gameState;
-    private ArrayList<ArrayList<Cell>> cells;
+    private GameClock gameClock;
 
     public void initialize() {
         playground.widthProperty().bind(
@@ -36,50 +37,49 @@ public class MainController {
         backgroundColorPicker.setValue(Color.BLACK);
 
         Platform.runLater(() -> {
-            gameState = new GameState(
-                playground.getWidth(),
-                playground.getHeight()
-            );
-            cells = gameState.getCells();
-            playground.drawPlayground(cells);
+            gameState = new GameState(playground);
+            gameClock = new GameClock(gameState);
         });
     }
 
     public void startSimulation(ActionEvent actionEvent) {
-        gameState.nextGeneration();
-        playground.drawPlayground(cells);
+        if (!gameState.isAllCellsDead()) {
+            gameClock.start();
+        }
     }
 
     public void stopSimulation(ActionEvent actionEvent) {
-
+        gameClock.stop();
+        gameState.clearCells();
     }
 
     public void pauseSimulation(ActionEvent actionEvent) {
-
+        gameClock.stop();
     }
 
     public void onSetCell(MouseEvent mouseEvent) {
-        double posX = mouseEvent.getX();
-        double posY = mouseEvent.getY();
+        if (!gameClock.isRunning()) {
+            double posX = mouseEvent.getX();
+            double posY = mouseEvent.getY();
 
-        double squarePosX = posX - posX % CellProperty.SIZE.getValue();
-        double squarePosY = posY - posY % CellProperty.SIZE.getValue();
+            double cellPosX = posX - posX % CellProperty.SIZE.getValue();
+            double cellPosY = posY - posY % CellProperty.SIZE.getValue();
 
-        gameState.setAliveCell(squarePosX, squarePosY);
-        playground.drawPlayground(cells);
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                gameState.setDeadCell(cellPosX, cellPosY);
+            } else {
+                gameState.setAliveCell(cellPosX, cellPosY);
+            }
+        }
     }
 
     public void onSetCellColor(ActionEvent actionEvent) {
         CellColor.ALIVE.setColor(cellsColorPicker.getValue());
-        if (cells != null) {
-            playground.drawPlayground(cells);
-        }
+        gameState.render();
     }
 
     public void onSetBackgroundColor(ActionEvent actionEvent) {
         CellColor.DEAD.setColor(backgroundColorPicker.getValue());
-        if (cells != null) {
-            playground.drawPlayground(cells);
-        }
+        gameState.render();
     }
 }

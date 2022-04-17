@@ -8,11 +8,11 @@ public class Cell {
     private boolean alive;
     private int aliveNeighbours;
 
-    public Cell(double posX, double posY) {
-        this.posX = posX;
-        this.posY = posY;
-        arrayPosX = (int) (posX / CellProperty.SIZE.getValue());
-        arrayPosY = (int) (posY / CellProperty.SIZE.getValue());
+    public Cell(int arrayPosX, int arrayPosY) {
+        this.arrayPosX = arrayPosX;
+        this.arrayPosY = arrayPosY;
+        this.posX = arrayPosX * CellProperty.SIZE.getValue();
+        this.posY = arrayPosY * CellProperty.SIZE.getValue();
         alive = false;
         aliveNeighbours = 0;
     }
@@ -20,10 +20,6 @@ public class Cell {
     public int getAliveNeighbours() { return aliveNeighbours; }
 
     public void setAliveNeighbours(int aliveNeighbours) { this.aliveNeighbours = aliveNeighbours; }
-
-    public void incrementAliveNeighbours() { this.aliveNeighbours++; }
-
-    public void decrementAliveNeighbours() { this.aliveNeighbours--; }
 
     public double getPosX() {
         return posX;

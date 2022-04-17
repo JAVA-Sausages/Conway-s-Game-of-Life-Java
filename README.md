@@ -8,7 +8,7 @@
 
 - [Denis Shevchuk](https://github.com/WashingtonD) - JavaFX, algorithms
 - [Maciej Luciński](https://github.com/Vyvr) - UI design, features
-- [Szymon Kaszuba-Gałka](https://github.com/Szymonexis) - project design, algorithms, github management
+- [Szymon Kaszuba-Gałka](https://github.com/Szymonexis) - project design, algorithms
 
 ## Project targets
 
@@ -33,10 +33,10 @@ Secondary targets:
 
 - let the user to expand the gamefield to whatever proportions desired (or within some high enough constraints)
 - let the user change both cellColor color and backgroundColor color
-- let user change cellColor size
+- let user change cell size
 - let user change the underlying rules of the game:
-    - cellColor-alive state
-    - cellColor-dead state
-- let user spawn as many concurrent game playgrounds as desired (multithreading)
+    - cell-spawn rule
+    - cell-keep rule
+- let user spawn as many concurrent game playgrounds as desired or within certain treshold (multithreading)
 - let user change the speed of the game (might not be implemented)
 - let the user change the zoom and move the camera around the playground (might not be implemented)

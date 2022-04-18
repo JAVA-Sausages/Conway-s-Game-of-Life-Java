@@ -6,7 +6,7 @@ public enum CellProperty {
     private int value;
 
     CellProperty(int value) {
-        this.value = value;
+        this.value = Math.max(value, 10);
     }
 
     public int getValue() {
@@ -14,6 +14,6 @@ public enum CellProperty {
     }
 
     public void setValue(int value) {
-        this.value = value;
+        this.value = Math.max(value, 10);
     }
 }

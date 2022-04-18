@@ -47,7 +47,7 @@
    </left>
    <center>
       <Pane fx:id="playgroundPane" BorderPane.alignment="CENTER">
-         <ResizableCanvas fx:id="playground" onMouseClicked="#onSetCell" />
+         <ResizableCanvas fx:id="playground" onMouseClicked="#onSetCell" onMouseDragged="#onSetCell" />
       </Pane>
    </center>
 </BorderPane>

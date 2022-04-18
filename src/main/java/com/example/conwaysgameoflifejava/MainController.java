@@ -91,13 +91,6 @@ public class MainController {
     }
 
     public void changeTheme(ActionEvent actionEvent) {
-//        leftVBox.lookup(".chart-plot-background");
-//        leftVBox.getCssMetaData().stream()
-//                .filter(p -> p.getProperty().equals("-fx-region-background"))
-//                .findFirst()
-//                .ifPresent(System.out::println);
-
-
         Background bg = leftVBox.getBackground();
         List<BackgroundFill> fills = bg.getFills();
         System.out.println(bg);

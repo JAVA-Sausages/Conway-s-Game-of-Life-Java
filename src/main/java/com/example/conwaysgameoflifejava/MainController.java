@@ -8,8 +8,10 @@ import com.example.conwaysgameoflifejava.gameCore.GameClock;
 import com.example.conwaysgameoflifejava.gameCore.GameState;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -29,10 +31,12 @@ public class MainController {
     public Button startButton;
     public Button stopButton;
     public Button pauseButton;
+    public Button changeThemeButton;
     public ColorPicker backgroundColorPicker;
     public ColorPicker cellsColorPicker;
     public VBox leftVBox;
-    public Button changeThemeButton;
+    public Label backgroundColorLabel;
+    public Label cellsColorLabel;
     private GameState gameState;
     private GameClock gameClock;
 
@@ -102,15 +106,31 @@ public class MainController {
         Paint paint = col.getFill();
 
         String hexaColor = paint.toString();
-        String expectedColor = "0xff0000ff";
+        System.out.printf(hexaColor);
+        String expectedColor = "0xd4d4d4ff";
 
-        if(expectedColor.equals(hexaColor)) {
-            leftVBox.setStyle("-fx-background-color: '0000ffff'");
+        if (expectedColor.equals(hexaColor)) {
+            leftVBox.setStyle("-fx-background-color: '303030'");
+            setLabelsTextColor("ffffff", backgroundColorLabel, cellsColorLabel);
+            setButtonsStyle("417DF9", startButton, stopButton, pauseButton, changeThemeButton, cellsColorPicker, backgroundColorPicker);
         } else {
-            leftVBox.setStyle("-fx-background-color: 'ff0000ff'");
+            leftVBox.setStyle("-fx-background-color: 'D4D4D4'");
+            setLabelsTextColor("000000", backgroundColorLabel, cellsColorLabel);
+            setButtonsStyle("303030", startButton, stopButton, pauseButton, changeThemeButton,cellsColorPicker, backgroundColorPicker);
         }
+    }
 
+    private void setLabelsTextColor(String color, Label... labels) {
+        color = "#" + color;
+        for (Label label : labels) {
+            label.setStyle("-fx-text-fill: " + color + "");
+        }
+    }
 
-
+    private void setButtonsStyle(String backgroundColor, Node... buttons) {
+        backgroundColor = "#" + backgroundColor;
+        for (Node button : buttons) {
+            button.setStyle("-fx-background-color: " + backgroundColor + "");
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.conwaysgameoflifejava;
 
-import com.example.conwaysgameoflifejava.cell.Cell;
 import com.example.conwaysgameoflifejava.cell.CellColor;
 import com.example.conwaysgameoflifejava.cell.CellProperty;
 import com.example.conwaysgameoflifejava.customComponents.ResizableCanvas;
@@ -12,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -23,20 +23,28 @@ import javafx.scene.paint.Paint;
 
 import java.util.List;
 
-import java.util.ArrayList;
-
 public class MainController {
+    public VBox leftVBox;
     public Pane playgroundPane;
     public ResizableCanvas playground;
-    public Button startButton;
+    public Button startStopButton;
     public Button stopButton;
     public Button pauseButton;
     public Button changeThemeButton;
     public ColorPicker backgroundColorPicker;
     public ColorPicker cellsColorPicker;
-    public VBox leftVBox;
+    public Spinner clockIntervalSpinner;
+    public Spinner spawnSpinner;
+    public Spinner keepSpinner;
+    public Spinner hungerSpinner;
+    public Spinner overpopulationSpinner;
     public Label backgroundColorLabel;
     public Label cellsColorLabel;
+    public Label clockIntervalLabel;
+    public Label keepLabel;
+    public Label overpopulationLabel;
+    public Label spawnLabel;
+    public Label hungerLabel;
     private GameState gameState;
     private GameClock gameClock;
 
@@ -111,12 +119,12 @@ public class MainController {
 
         if (expectedColor.equals(hexaColor)) {
             leftVBox.setStyle("-fx-background-color: '303030'");
-            setLabelsTextColor("ffffff", backgroundColorLabel, cellsColorLabel);
-            setButtonsStyle("417DF9", startButton, stopButton, pauseButton, changeThemeButton, cellsColorPicker, backgroundColorPicker);
+            setLabelsTextColor("ffffff", backgroundColorLabel, cellsColorLabel, clockIntervalLabel, keepLabel, hungerLabel, spawnLabel, overpopulationLabel);
+            setButtonsStyle("417DF9", startStopButton, stopButton, pauseButton, changeThemeButton, cellsColorPicker, backgroundColorPicker, clockIntervalSpinner, hungerSpinner, overpopulationSpinner, keepSpinner, spawnSpinner);
         } else {
             leftVBox.setStyle("-fx-background-color: 'D4D4D4'");
-            setLabelsTextColor("000000", backgroundColorLabel, cellsColorLabel);
-            setButtonsStyle("303030", startButton, stopButton, pauseButton, changeThemeButton,cellsColorPicker, backgroundColorPicker);
+            setLabelsTextColor("000000", backgroundColorLabel, cellsColorLabel, clockIntervalLabel, keepLabel, hungerLabel, spawnLabel, overpopulationLabel);
+            setButtonsStyle("303030", startStopButton, stopButton, pauseButton, changeThemeButton,cellsColorPicker, backgroundColorPicker, clockIntervalSpinner, hungerSpinner, overpopulationSpinner, keepSpinner, spawnSpinner);
         }
     }
 

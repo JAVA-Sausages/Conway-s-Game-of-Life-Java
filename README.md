@@ -37,6 +37,6 @@ Secondary targets:
 - let user change the underlying rules of the game:
     - cell-spawn rule
     - cell-keep rule
-- let user spawn as many concurrent game playgrounds as desired or within certain treshold (multithreading)
+- add template loading and saving
 - let user change the speed of the game (might not be implemented)
 - let the user change the zoom and move the camera around the playground (might not be implemented)

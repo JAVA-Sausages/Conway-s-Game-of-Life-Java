@@ -1,5 +1,6 @@
 package com.example.conwaysgameoflifejava;
 
+import com.example.conwaysgameoflifejava.Theme.ThemeSetter;
 import com.example.conwaysgameoflifejava.cell.CellColor;
 import com.example.conwaysgameoflifejava.cell.CellProperty;
 import com.example.conwaysgameoflifejava.customComponents.ResizableCanvas;
@@ -14,13 +15,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainController {
@@ -28,16 +27,15 @@ public class MainController {
     public Pane playgroundPane;
     public ResizableCanvas playground;
     public Button startStopButton;
-    public Button stopButton;
     public Button pauseButton;
     public Button changeThemeButton;
     public ColorPicker backgroundColorPicker;
     public ColorPicker cellsColorPicker;
-    public Spinner clockIntervalSpinner;
-    public Spinner spawnSpinner;
-    public Spinner keepSpinner;
-    public Spinner hungerSpinner;
-    public Spinner overpopulationSpinner;
+    public Spinner<Integer> clockIntervalSpinner;
+    public Spinner<Integer> spawnSpinner;
+    public Spinner<Integer> keepSpinner;
+    public Spinner<Integer> hungerSpinner;
+    public Spinner<Integer> overpopulationSpinner;
     public Label backgroundColorLabel;
     public Label cellsColorLabel;
     public Label clockIntervalLabel;
@@ -45,8 +43,12 @@ public class MainController {
     public Label overpopulationLabel;
     public Label spawnLabel;
     public Label hungerLabel;
+    public Label noCellsLabel;
     private GameState gameState;
     private GameClock gameClock;
+
+    private List<Label> labels = new ArrayList<>();
+    private List<Node> buttons = new ArrayList<>();
 
     public void initialize() {
         playground.widthProperty().bind(
@@ -61,23 +63,36 @@ public class MainController {
             gameClock = new GameClock(gameState);
         });
 
-//        leftVBox.setStyle("-fx-background-color: RED");
-
-    }
-
-    public void startSimulation(ActionEvent actionEvent) {
-        if (!gameState.isAllCellsDead()) {
-            gameClock.start();
+        for (Node node : leftVBox.getChildren()) {
+            if (node instanceof Label) {
+                labels.add((Label) node);
+            } else if (node instanceof Button || node instanceof Spinner || node instanceof ColorPicker) {
+                buttons.add(node);
+            }
         }
     }
 
-    public void stopSimulation(ActionEvent actionEvent) {
-        gameClock.stop();
-        gameState.clearCells();
+    public void startStopSimulation(ActionEvent actionEvent) {
+        if (!gameClock.isRunning()) {
+            if (!gameState.isAllCellsDead()) {
+                gameClock.start();
+                startStopButton.setText("Stop");
+                noCellsLabel.setVisible(false);
+                noCellsLabel.setManaged(false);
+            } else {
+                noCellsLabel.setVisible(true);
+                noCellsLabel.setManaged(true);
+            }
+        } else {
+            gameClock.stop();
+            gameState.clearCells();
+            startStopButton.setText("Start");
+        }
     }
 
     public void pauseSimulation(ActionEvent actionEvent) {
         gameClock.stop();
+        startStopButton.setText("Start");
     }
 
     public void onSetCell(MouseEvent mouseEvent) {
@@ -107,38 +122,14 @@ public class MainController {
     }
 
     public void changeTheme(ActionEvent actionEvent) {
-        Background bg = leftVBox.getBackground();
-        List<BackgroundFill> fills = bg.getFills();
-        System.out.println(bg);
-        BackgroundFill col = fills.get(0);
-        Paint paint = col.getFill();
+        ThemeSetter.switchTheme();
 
-        String hexaColor = paint.toString();
-        System.out.printf(hexaColor);
-        String expectedColor = "0xd4d4d4ff";
-
-        if (expectedColor.equals(hexaColor)) {
-            leftVBox.setStyle("-fx-background-color: '303030'");
-            setLabelsTextColor("ffffff", backgroundColorLabel, cellsColorLabel, clockIntervalLabel, keepLabel, hungerLabel, spawnLabel, overpopulationLabel);
-            setButtonsStyle("417DF9", startStopButton, stopButton, pauseButton, changeThemeButton, cellsColorPicker, backgroundColorPicker, clockIntervalSpinner, hungerSpinner, overpopulationSpinner, keepSpinner, spawnSpinner);
-        } else {
-            leftVBox.setStyle("-fx-background-color: 'D4D4D4'");
-            setLabelsTextColor("000000", backgroundColorLabel, cellsColorLabel, clockIntervalLabel, keepLabel, hungerLabel, spawnLabel, overpopulationLabel);
-            setButtonsStyle("303030", startStopButton, stopButton, pauseButton, changeThemeButton,cellsColorPicker, backgroundColorPicker, clockIntervalSpinner, hungerSpinner, overpopulationSpinner, keepSpinner, spawnSpinner);
+        ThemeSetter.setThemeOnVBox(leftVBox);
+        for (Node node : buttons) {
+            ThemeSetter.setThemeOnNode(node);
         }
-    }
-
-    private void setLabelsTextColor(String color, Label... labels) {
-        color = "#" + color;
         for (Label label : labels) {
-            label.setStyle("-fx-text-fill: " + color + "");
-        }
-    }
-
-    private void setButtonsStyle(String backgroundColor, Node... buttons) {
-        backgroundColor = "#" + backgroundColor;
-        for (Node button : buttons) {
-            button.setStyle("-fx-background-color: " + backgroundColor + "");
+            ThemeSetter.setThemeOnLabel(label);
         }
     }
 }

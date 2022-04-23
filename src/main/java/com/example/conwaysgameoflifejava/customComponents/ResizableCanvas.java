@@ -27,6 +27,11 @@ public class ResizableCanvas extends Canvas {
                         CellColor.ALIVE.getColor() : CellColor.DEAD.getColor());
                 gc.fillRect(cell.getPosX(), cell.getPosY(),
                         CellProperty.SIZE.getValue(), CellProperty.SIZE.getValue());
+
+                gc.setFill(cell.isAlive() ?
+                        CellColor.DEAD.getColor(): CellColor.ALIVE.getColor());
+                gc.fillRect(cell.getPosX() + 0.25, cell.getPosY() + 0.25,
+                        CellProperty.SIZE.getValue() - 0.5, CellProperty.SIZE.getValue() - 0.5);
             }
         }
     }

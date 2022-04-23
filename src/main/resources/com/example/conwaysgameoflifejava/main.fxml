@@ -24,14 +24,10 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin></Button>
 
-            <Button fx:id="startStopButton" onAction="#startSimulation" styleClass="button" text="Start">
+            <Label fx:id="noCellsLabel" styleClass="errorLabel" text="Create some cells to start" visible="false" managed="false" />
+            <Button fx:id="startStopButton" onAction="#startStopSimulation" styleClass="button" text="Start">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0"/>
-               </VBox.margin></Button>
-
-            <Button fx:id="stopButton" onAction="#stopSimulation" styleClass="button" text="Stop">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin></Button>
 
             <Button fx:id="pauseButton" onAction="#pauseSimulation" styleClass="button" text="Pause">

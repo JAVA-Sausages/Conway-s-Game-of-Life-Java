@@ -13,3 +13,7 @@
 .label {
     -fx-text-fill: "ffffff";
 }
+
+.errorLabel {
+    -fx-text-fill: "cc0000";
+}

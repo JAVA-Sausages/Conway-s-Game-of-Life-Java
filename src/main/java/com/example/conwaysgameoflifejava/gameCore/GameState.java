@@ -192,6 +192,7 @@ public class GameState {
                 cell.setAlive(false);
             }
         }
+        allCellsDead = true;
         render();
     }
 

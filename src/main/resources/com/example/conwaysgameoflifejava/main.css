@@ -1,11 +1,19 @@
 .vbox {
     -fx-alignment: TOP_CENTER;
+    -fx-background-color: "303030"
+;
 }
 
 .button {
-
+    -fx-background-color: "417DF9";
+    -fx-pref-width: 100px;
+    -fx-text-fill: "ffffff";
 }
 
 .label {
+    -fx-text-fill: "ffffff";
+}
 
+.errorLabel {
+    -fx-text-fill: "cc0000";
 }

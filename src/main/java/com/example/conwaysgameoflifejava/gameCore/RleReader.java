@@ -110,7 +110,9 @@ public class RleReader {
                        /// Creating cells from current row
                         ///NOT SURE ABOUT indexation
                         for(int i = 0; i < amountOfCells; i++){
-                         cellsFromFile.add(new Cell(colIndex,rowIndex));
+                            Cell toBeAdded = new Cell(colIndex,rowIndex);
+                            toBeAdded.setAlive(aliveness);
+                         cellsFromFile.add(toBeAdded);
                         }
                         tempPart = tempPart.substring(iterator+1);
                         iterator = -1;
@@ -124,7 +126,10 @@ public class RleReader {
                          break;
                         }
                         ///Adding cell without number of repeats (With one repeat)
-                        cellsFromFile.add(new Cell(colIndex,rowIndex));
+                        boolean aliveness = tempPart.charAt(iterator) != 'b';
+                        Cell toBeAdded = new Cell(colIndex,rowIndex);
+                        toBeAdded.setAlive(aliveness);
+                        cellsFromFile.add(toBeAdded);
                         tempPart = tempPart.substring(1);
                         iterator--;
                         colIndex++;

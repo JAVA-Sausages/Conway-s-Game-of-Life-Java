@@ -3,16 +3,16 @@ package com.example.conwaysgameoflifejava;
 import com.example.conwaysgameoflifejava.Theme.ThemeSetter;
 import com.example.conwaysgameoflifejava.cell.CellColor;
 import com.example.conwaysgameoflifejava.cell.CellProperty;
+import com.example.conwaysgameoflifejava.cell.CellRule;
 import com.example.conwaysgameoflifejava.customComponents.ResizableCanvas;
 import com.example.conwaysgameoflifejava.gameCore.GameClock;
+import com.example.conwaysgameoflifejava.gameCore.GameProperty;
 import com.example.conwaysgameoflifejava.gameCore.GameState;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainController {
     public VBox leftVBox;
@@ -31,31 +32,31 @@ public class MainController {
     public Button changeThemeButton;
     public ColorPicker backgroundColorPicker;
     public ColorPicker cellsColorPicker;
-    public Spinner<Integer> clockIntervalSpinner;
     public Spinner<Integer> spawnSpinner;
     public Spinner<Integer> keepSpinner;
-    public Spinner<Integer> hungerSpinner;
-    public Spinner<Integer> overpopulationSpinner;
     public Label backgroundColorLabel;
     public Label cellsColorLabel;
-    public Label clockIntervalLabel;
     public Label keepLabel;
-    public Label overpopulationLabel;
     public Label spawnLabel;
-    public Label hungerLabel;
     public Label noCellsLabel;
     private GameState gameState;
     private GameClock gameClock;
 
-    private List<Label> labels = new ArrayList<>();
-    private List<Node> buttons = new ArrayList<>();
+    private final List<Label> labels = new ArrayList<>();
+    private final List<Node> buttons = new ArrayList<>();
 
     public void initialize() {
+        spawnSpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+            CellRule.SPAWN.setValue(newValue);
+        });
+        keepSpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+            CellRule.KEEP.setValue(newValue);
+        });
+
         playground.widthProperty().bind(
                 playgroundPane.widthProperty());
         playground.heightProperty().bind(
                 playgroundPane.heightProperty());
-
         backgroundColorPicker.setValue(Color.BLACK);
 
         Platform.runLater(() -> {
@@ -72,16 +73,20 @@ public class MainController {
         }
     }
 
-    public void startStopSimulation(ActionEvent actionEvent) {
+    public void onStartStopSimulation(ActionEvent actionEvent) {
         if (!gameClock.isRunning()) {
-            if (!gameState.isAllCellsDead()) {
+            if (!gameState.allCellsDead.getValue()) {
                 gameClock.start();
                 startStopButton.setText("Stop");
                 noCellsLabel.setVisible(false);
                 noCellsLabel.setManaged(false);
-            } else {
+            } else if(Objects.equals(startStopButton.getText(), "Start")) {
                 noCellsLabel.setVisible(true);
                 noCellsLabel.setManaged(true);
+            } else {
+                gameClock.stop();
+                gameState.clearCells();
+                startStopButton.setText("Start");
             }
         } else {
             gameClock.stop();
@@ -90,7 +95,7 @@ public class MainController {
         }
     }
 
-    public void pauseSimulation(ActionEvent actionEvent) {
+    public void onPauseSimulation(ActionEvent actionEvent) {
         gameClock.stop();
         startStopButton.setText("Start");
     }
@@ -121,7 +126,7 @@ public class MainController {
         gameState.render();
     }
 
-    public void changeTheme(ActionEvent actionEvent) {
+    public void onChangeTheme(ActionEvent actionEvent) {
         ThemeSetter.switchTheme();
 
         ThemeSetter.setThemeOnVBox(leftVBox);

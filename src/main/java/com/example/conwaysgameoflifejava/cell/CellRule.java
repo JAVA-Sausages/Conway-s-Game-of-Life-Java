@@ -5,14 +5,14 @@ public enum CellRule{
     SPAWN(3),
     KEEP(2);
 
-    private int aliveNeighbours;
+    private int value;
 
-    CellRule(int aliveNeighbours){
-        this.aliveNeighbours = aliveNeighbours;
+    CellRule(int value){
+        this.value = value;
     }
 
-    public int getNeighbours(){ return this.aliveNeighbours; }
-    public void setNeighbours(int aliveNeighbours) { this.aliveNeighbours = aliveNeighbours; }
+    public int getValue() { return this.value; }
+    public void setValue(int aliveNeighbours) { this.value = aliveNeighbours; }
 
 }
 

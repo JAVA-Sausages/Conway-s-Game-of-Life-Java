@@ -5,13 +5,14 @@ import com.example.conwaysgameoflifejava.cell.CellNeighbour;
 import com.example.conwaysgameoflifejava.cell.CellProperty;
 import com.example.conwaysgameoflifejava.cell.CellRule;
 import com.example.conwaysgameoflifejava.customComponents.ResizableCanvas;
+import javafx.beans.property.SimpleBooleanProperty;
 
 import java.util.ArrayList;
 
 public class GameState {
     private ResizableCanvas playground;
     private ArrayList<ArrayList<Cell>> cells;
-    private boolean allCellsDead = true;
+    public SimpleBooleanProperty allCellsDead = new SimpleBooleanProperty(true);
 
     public GameState(ResizableCanvas playground) {
         this.playground = playground;
@@ -33,7 +34,7 @@ public class GameState {
 
     public void setAliveCell(double posX, double posY) {
         setCell(posX, posY, true);
-        allCellsDead = false;
+        allCellsDead.set(false);
     }
 
     public void setDeadCell(double posX, double posY) {
@@ -64,12 +65,13 @@ public class GameState {
     }
 
     private void checkAllCellsDead() {
-        allCellsDead = true;
+        boolean check = true;
         for (ArrayList<Cell> cellsRow : cells) {
             for (Cell cell : cellsRow) {
-                allCellsDead &= !cell.isAlive();
+                check &= !cell.isAlive();
             }
         }
+        allCellsDead.set(check);
     }
 
     public void render() {
@@ -88,10 +90,10 @@ public class GameState {
                 Cell nextGenCell = tempCells.get(posX).get(poxY);
 
                 if (!lastGenCell.isAlive()) {
-                    nextGenCell.setAlive(lastGenCell.getAliveNeighbours() == CellRule.SPAWN.getNeighbours());
+                    nextGenCell.setAlive(lastGenCell.getAliveNeighbours() == CellRule.SPAWN.getValue());
                 } else {
-                    nextGenCell.setAlive(lastGenCell.getAliveNeighbours() == CellRule.KEEP.getNeighbours()
-                            || lastGenCell.getAliveNeighbours() == CellRule.SPAWN.getNeighbours());
+                    nextGenCell.setAlive(lastGenCell.getAliveNeighbours() == CellRule.KEEP.getValue()
+                            || lastGenCell.getAliveNeighbours() == CellRule.SPAWN.getValue());
                 }
             }
         }
@@ -99,7 +101,6 @@ public class GameState {
         render();
         checkAllCellsDead();
     }
-
 
     private void updateAliveNeighboursCount() {
         for (ArrayList<Cell> cellsRow : cells) {
@@ -192,7 +193,7 @@ public class GameState {
                 cell.setAlive(false);
             }
         }
-        allCellsDead = true;
+        allCellsDead.set(true);
         render();
     }
 
@@ -202,9 +203,5 @@ public class GameState {
 
     public void setPlayground(ResizableCanvas playground) {
         this.playground = playground;
-    }
-
-    public boolean isAllCellsDead() {
-        return allCellsDead;
     }
 }

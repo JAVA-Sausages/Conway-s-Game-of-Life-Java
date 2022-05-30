@@ -12,6 +12,7 @@
 <?import com.example.conwaysgameoflifejava.customComponents.ResizableCanvas?>
 
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SpinnerValueFactory?>
 <BorderPane maxHeight="600.0" maxWidth="800.0" minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.conwaysgameoflifejava.MainController">
    <stylesheets>
       <URL value="@main.css" />
@@ -19,18 +20,18 @@
    <left>
       <VBox fx:id="leftVBox" styleClass="vbox" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="changeThemeButton" onAction="#changeTheme" styleClass="button" text="Change theme">
+            <Button fx:id="changeThemeButton" onAction="#onChangeTheme" styleClass="button" text="Change theme">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin></Button>
 
             <Label fx:id="noCellsLabel" styleClass="errorLabel" text="Create some cells to start" visible="false" managed="false" />
-            <Button fx:id="startStopButton" onAction="#startStopSimulation" styleClass="button" text="Start">
+            <Button fx:id="startStopButton" onAction="#onStartStopSimulation" styleClass="button" text="Start">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0"/>
                </VBox.margin></Button>
 
-            <Button fx:id="pauseButton" onAction="#pauseSimulation" styleClass="button" text="Pause">
+            <Button fx:id="pauseButton" onAction="#onPauseSimulation" styleClass="button" text="Pause">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin></Button>
@@ -47,50 +48,25 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin></ColorPicker>
 
-            <Label fx:id="clockIntervalLabel" styleClass="label" text="Clock interval" />
-            <Spinner fx:id="clockIntervalSpinner" styleClass="button" editable="false">
-               <valueFactory>
-                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="10" initialValue="1" amountToStepBy="1"/>
-               </valueFactory>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" />
-               </VBox.margin></Spinner>
-
-            <Label fx:id="hungerLabel" styleClass="label" text="Hunger" />
-            <Spinner fx:id="hungerSpinner" styleClass="button" editable="false">
-               <valueFactory>
-                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="10" initialValue="1" amountToStepBy="1"/>
-               </valueFactory>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" />
-               </VBox.margin></Spinner>
-
-            <Label fx:id="overpopulationLabel" styleClass="label" text="Overpopulation" />
-            <Spinner fx:id="overpopulationSpinner" styleClass="button" editable="false">
-               <valueFactory>
-                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="10" initialValue="1" amountToStepBy="1"/>
-               </valueFactory>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" />
-               </VBox.margin></Spinner>
-
             <Label fx:id="keepLabel" styleClass="label" text="Keep" />
-            <Spinner fx:id="keepSpinner" styleClass="button" editable="false">
+            <Spinner fx:id="keepSpinner" styleClass="button">
                <valueFactory>
-                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="10" initialValue="1" amountToStepBy="1"/>
+                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="8" initialValue="2" amountToStepBy="1" />
                </valueFactory>
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
-               </VBox.margin></Spinner>
+               </VBox.margin>
+            </Spinner>
 
             <Label fx:id="spawnLabel" styleClass="label" text="Spawn" />
-            <Spinner fx:id="spawnSpinner" styleClass="button" editable="false">
+            <Spinner fx:id="spawnSpinner" styleClass="button">
                <valueFactory>
-                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="10" initialValue="1" amountToStepBy="1"/>
+                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="8" initialValue="3" amountToStepBy="1" />
                </valueFactory>
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
-               </VBox.margin></Spinner>
+               </VBox.margin>
+            </Spinner>
          </children></VBox>
    </left>
    <center>

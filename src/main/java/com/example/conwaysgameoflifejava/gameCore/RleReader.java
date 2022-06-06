@@ -83,7 +83,7 @@ public class RleReader {
 
         ///Invoke of function which is reading Cells
         readCells(lines[positionToStart + 1]);
-        gameState.setCells(cellsFromFile, setupWidth, setupHeight);
+        gameState.setCells(cellsFromFile, setupWidth, setupHeight, birthRule, saveRule);
     }
 
     private void readCells(String cellsString) {

@@ -36,7 +36,7 @@ public class GameClock {
         }
     }
 
-    public boolean isRunning() {
-        return running;
+    public boolean isNotRunning() {
+        return !running;
     }
 }

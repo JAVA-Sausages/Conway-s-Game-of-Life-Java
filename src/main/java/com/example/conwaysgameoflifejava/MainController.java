@@ -6,11 +6,10 @@ import com.example.conwaysgameoflifejava.cell.CellProperty;
 import com.example.conwaysgameoflifejava.cell.CellRule;
 import com.example.conwaysgameoflifejava.customComponents.ResizableCanvas;
 import com.example.conwaysgameoflifejava.gameCore.GameClock;
-import com.example.conwaysgameoflifejava.gameCore.GameProperty;
 import com.example.conwaysgameoflifejava.gameCore.GameState;
+import com.example.conwaysgameoflifejava.gameCore.RleReader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
@@ -18,7 +17,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +31,7 @@ public class MainController {
     public Button startStopButton;
     public Button pauseButton;
     public Button changeThemeButton;
+    public Button readPattern;
     public ColorPicker backgroundColorPicker;
     public ColorPicker cellsColorPicker;
     public Spinner<Integer> spawnSpinner;
@@ -41,6 +43,7 @@ public class MainController {
     public Label noCellsLabel;
     private GameState gameState;
     private GameClock gameClock;
+    private RleReader rleReader;
 
     private final List<Label> labels = new ArrayList<>();
     private final List<Node> buttons = new ArrayList<>();
@@ -62,6 +65,7 @@ public class MainController {
         Platform.runLater(() -> {
             gameState = new GameState(playground);
             gameClock = new GameClock(gameState);
+            rleReader = new RleReader(gameState);
         });
 
         for (Node node : leftVBox.getChildren()) {
@@ -74,7 +78,7 @@ public class MainController {
     }
 
     public void onStartStopSimulation(ActionEvent actionEvent) {
-        if (!gameClock.isRunning()) {
+        if (gameClock.isNotRunning()) {
             if (!gameState.allCellsDead.getValue()) {
                 gameClock.start();
                 startStopButton.setText("Stop");
@@ -101,7 +105,7 @@ public class MainController {
     }
 
     public void onSetCell(MouseEvent mouseEvent) {
-        if (!gameClock.isRunning()) {
+        if (gameClock.isNotRunning()) {
             double posX = mouseEvent.getX();
             double posY = mouseEvent.getY();
 
@@ -136,5 +140,18 @@ public class MainController {
         for (Label label : labels) {
             ThemeSetter.setThemeOnLabel(label);
         }
+    }
+
+    public void onReadPattern(ActionEvent actionEvent) {
+//        https://copy.sh/life/examples/104p177.rle
+        FileChooser fileChooser = new FileChooser();
+        String path = fileChooser.showOpenDialog(MainApplication.stage).getAbsolutePath();
+
+        // TODO: delete after debugging
+        System.out.println(path);
+
+        try {
+            rleReader.readFile(path);
+        } catch (FileNotFoundException ignored) {}
     }
 }

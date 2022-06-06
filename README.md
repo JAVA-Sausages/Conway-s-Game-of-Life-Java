@@ -7,14 +7,14 @@
 ## Project contributors
 
 - [Denis Shevchuk](https://github.com/WashingtonD) - JavaFX, algorithms
-- [Maciej Luciński](https://github.com/Vyvr) - UI design, features
-- [Szymon Kaszuba-Gałka](https://github.com/Szymonexis) - project design, algorithms
+- [Maciej Luciński](https://github.com/Vyvr) - UI design/features
+- [Szymon Kaszuba-Gałka](https://github.com/Szymonexis) - JavaFX, project design, algorithms
 
 ## Project targets
 
 ### Main target
 
-Main tagret is to create an app that implements Conway's Game of Life in a 2-dimansion playground in JavaFX. That is:
+Main target is to create an app that implements Conway's Game of Life in a 2-dimension playground in JavaFX. That is:
 
 - user can create a starting state for the game of life by drawing on the playground
 - its clock will be fixed
@@ -24,14 +24,14 @@ Main tagret is to create an app that implements Conway's Game of Life in a 2-dim
     - any live cellColor with two or three live neighbours lives on to the next generation.
     - any live cellColor with more than three live neighbours dies, as if by overpopulation.
     - any dead cellColor with exactly three live neighbours becomes a live cellColor, as if by reproduction.
-- only one playgroud can be active at once
-- playgroud is fixed in size (borders act as no cells squares)
+- only one playground can be active at once
+- playground is fixed in size (borders act as no cells squares)
 
 ### Secondary targets
 
 Secondary targets:
 
-- let the user to expand the gamefield to whatever proportions desired (or within some high enough constraints)
+- let the user expand the game field to whatever proportions desired (or within some high enough constraints)
 - let the user change both cellColor color and backgroundColor color
 - let user change cell size
 - let user change the underlying rules of the game:

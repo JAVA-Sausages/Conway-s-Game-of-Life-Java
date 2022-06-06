@@ -8,8 +8,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainApplication extends Application {
+    public static Stage stage;
     @Override
     public void start(Stage stage) throws IOException {
+        MainApplication.stage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);

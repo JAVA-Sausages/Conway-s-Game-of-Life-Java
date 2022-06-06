@@ -41,34 +41,30 @@ public class GameState {
         setCell(posX, posY, false);
         checkAllCellsDead();
     }
-    
-     public void setCells(ArrayList<Cell> celles, int cellXCount, int cellYCount, int spawnVal, int surviveVal)
-    {
+
+    public void setCells(ArrayList<Cell> cells, int cellXCount, int cellYCount, int spawnVal, int surviveVal) {
         CellRule.SPAWN.setValue(spawnVal);
-        CellRule.KEEP.setValue(suriveVal);
-        cells = new ArrayList<>();
+        CellRule.KEEP.setValue(surviveVal);
+        this.cells = new ArrayList<>();
         for (int i = 0; i < cellXCount; i++) {
-            cells.add(new ArrayList<>());
-            ArrayList<Cell> cellsArr = cells.get(i);
+            this.cells.add(new ArrayList<>());
+            ArrayList<Cell> cellsArr = this.cells.get(i);
             for (int j = 0; j < cellYCount; j++) {
                 cellsArr.add(new Cell(i, j));
             }
         }
 
-        for(ArrayList<Cell> row : cells)
-        {
-               for(Cell c : row)
-               {
-                   c.setAlive(false);
-               }
+        for (ArrayList<Cell> row : this.cells) {
+            for (Cell c : row) {
+                c.setAlive(false);
+            }
         }
-        for (Cell cell : celles)
-        {
-             cells.get(cell.getArrayPosX()).get(cell.getArrayPosY()).setAlive(cell.isAlive());
+        for (Cell cell : cells) {
+            this.cells.get(cell.getArrayPosX()).get(cell.getArrayPosY()).setAlive(cell.isAlive());
         }
+        checkAllCellsDead();
         render();
     }
-
 
     private void setCell(double posX, double posY, boolean isAlive) {
         int cellArrayPosX = (int) (posX / CellProperty.SIZE.getValue());

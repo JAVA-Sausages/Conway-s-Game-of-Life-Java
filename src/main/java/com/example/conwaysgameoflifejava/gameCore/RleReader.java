@@ -1,24 +1,20 @@
 package com.example.conwaysgameoflifejava.gameCore;
 
 import com.example.conwaysgameoflifejava.cell.Cell;
-import com.example.conwaysgameoflifejava.cell.CellRule;
-import eu.hansolo.tilesfx.tools.Point;
-import javafx.css.Size;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class RleReader {
-    private GameState gameState;
+    private final GameState gameState;
     private String pattern;
     private int birthRule;
     private int saveRule;
     private int setupWidth;
     private int setupHeight;
-    private ArrayList<Cell> cellsFromFile = new ArrayList<>();
+    private final ArrayList<Cell> cellsFromFile = new ArrayList<>();
 
     public RleReader(GameState gameState){
         this.gameState = gameState;
@@ -27,8 +23,6 @@ public class RleReader {
     public void setPattern(String pattern) {
         this.pattern = pattern;
     }
-
-
 
     public void readFile(String path) throws FileNotFoundException {
         File patternFile = new File(path);
@@ -43,7 +37,7 @@ public class RleReader {
         readSetup();
     }
 
-    public void readSetup(){
+    private void readSetup(){
         /// Dividing pattern file by lines and skipping comments
         String[] lines = this.pattern.split("\\n");
         int positionToStart = 0;
@@ -55,30 +49,30 @@ public class RleReader {
 
         ///Getting setup Width and Height from the pattern-file;
         String[] tempArray = lines[positionToStart].split(" ");
-        try{
+        try {
             setupWidth = Integer.parseInt(tempArray[2].replace(",",""));
             setupHeight = Integer.parseInt(tempArray[5].replace(",",""));
-        }catch (Exception e){}
+        } catch(Exception ignored){}
 
         ///Getting pattern rules if there is a presence
         if(tempArray.length > 5){
             String[] rules = tempArray[8].split("/");
-            String buffer = "";
+            StringBuilder buffer = new StringBuilder();
             for(int i = 0; i < rules[0].length(); i++){
                 if(Character.isDigit(rules[0].charAt(i)))
-                    buffer += rules[0].charAt(i);
+                    buffer.append(rules[0].charAt(i));
             }
-            try{
-                birthRule = Integer.parseInt(buffer);
-            }catch(Exception e) {}
-            buffer = "";
+            try {
+                birthRule = Integer.parseInt(buffer.toString());
+            } catch(Exception ignored) {}
+            buffer = new StringBuilder();
             for(int i = 0; i < rules[1].length(); i++){
                 if(Character.isDigit(rules[1].charAt(i)))
-                    buffer += rules[1].charAt(i);
+                    buffer.append(rules[1].charAt(i));
             }
             try{
-                saveRule = Integer.parseInt(buffer);
-            }catch (Exception e){}
+                saveRule = Integer.parseInt(buffer.toString());
+            } catch(Exception ignored) {}
         }
 
         ///Invoke of function which is reading Cells
@@ -100,13 +94,12 @@ public class RleReader {
             while(true){
                 try {
                     tempInt = Integer.parseInt(String.valueOf(tempPart.charAt(iterator)));
-                }catch (Exception e){}
+                } catch(Exception ignored){}
                 if(tempInt != -1){
                     tempInt = -1;
                     flagForPart = true;
-                }
-                else{
-                    if(flagForPart){
+                } else {
+                    if(flagForPart) {
                         int amountOfCells = 1;
                         ///Getting number of pattern repeats
                         try {
@@ -124,8 +117,7 @@ public class RleReader {
                         tempPart = tempPart.substring(iterator+1);
                         iterator = -1;
                         flagForPart = false;
-                    }
-                    else{
+                    } else {
                         ///Checking for the end of the row
                         if(tempPart.charAt(iterator) == '#'){
                             colIndex = 0;

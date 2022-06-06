@@ -29,24 +29,28 @@
             <Button fx:id="startStopButton" onAction="#onStartStopSimulation" styleClass="button" text="Start">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0"/>
-               </VBox.margin></Button>
+               </VBox.margin>
+            </Button>
 
             <Button fx:id="pauseButton" onAction="#onPauseSimulation" styleClass="button" text="Pause">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
-               </VBox.margin></Button>
+               </VBox.margin>
+            </Button>
 
             <Label fx:id="backgroundColorLabel" styleClass="label" text="Background color" />
             <ColorPicker fx:id="backgroundColorPicker" styleClass="button" onAction="#onSetBackgroundColor">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
-               </VBox.margin></ColorPicker>
+               </VBox.margin>
+            </ColorPicker>
 
             <Label fx:id="cellsColorLabel" styleClass="label" text="Cells color" />
             <ColorPicker fx:id="cellsColorPicker" styleClass="button" onAction="#onSetCellColor">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
-               </VBox.margin></ColorPicker>
+               </VBox.margin>
+            </ColorPicker>
 
             <Label fx:id="keepLabel" styleClass="label" text="Keep" />
             <Spinner fx:id="keepSpinner" styleClass="button">
@@ -67,7 +71,14 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin>
             </Spinner>
-         </children></VBox>
+
+            <Button fx:id="readPattern" onAction="#onReadPattern" styleClass="button" text="Read Pattern">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
    </left>
    <center>
       <Pane fx:id="playgroundPane" BorderPane.alignment="CENTER">

@@ -41,6 +41,32 @@ public class GameState {
         setCell(posX, posY, false);
         checkAllCellsDead();
     }
+    
+     public void setCells(ArrayList<Cell> celles, int cellXCount, int cellYCount)
+    {
+        cells = new ArrayList<>();
+        for (int i = 0; i < cellXCount; i++) {
+            cells.add(new ArrayList<>());
+            ArrayList<Cell> cellsArr = cells.get(i);
+            for (int j = 0; j < cellYCount; j++) {
+                cellsArr.add(new Cell(i, j));
+            }
+        }
+
+        for(ArrayList<Cell> row : cells)
+        {
+               for(Cell c : row)
+               {
+                   c.setAlive(false);
+               }
+        }
+        for (Cell cell : celles)
+        {
+             cells.get(cell.getArrayPosX()).get(cell.getArrayPosY()).setAlive(cell.isAlive());
+        }
+        render();
+    }
+
 
     private void setCell(double posX, double posY, boolean isAlive) {
         int cellArrayPosX = (int) (posX / CellProperty.SIZE.getValue());

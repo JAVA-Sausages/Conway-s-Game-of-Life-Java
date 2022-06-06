@@ -2,6 +2,8 @@ package com.example.conwaysgameoflifejava.gameCore;
 
 import com.example.conwaysgameoflifejava.cell.Cell;
 import com.example.conwaysgameoflifejava.cell.CellRule;
+import eu.hansolo.tilesfx.tools.Point;
+import javafx.css.Size;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class RleReader {
+    private GameState gameState;
     private String pattern;
     private int birthRule;
     private int saveRule;
@@ -17,15 +20,17 @@ public class RleReader {
     private int setupHeight;
     private ArrayList<Cell> cellsFromFile = new ArrayList<>();
 
-    public RleReader(String pattern){
-        this.pattern = pattern;
+    public RleReader(String pattern, GameState gameState){
+        this.pattern = pattern; this.gameState = gameState;
     }
 
     public void setPattern(String pattern) {
         this.pattern = pattern;
     }
 
-    public String readFile(String path) throws FileNotFoundException {
+
+
+    public void readFile(String path) throws FileNotFoundException {
         File patternFile = new File(path);
         Scanner sc = new Scanner(patternFile);
         StringBuilder buffer = new StringBuilder();
@@ -34,7 +39,8 @@ public class RleReader {
             buffer.append(sc.nextLine()).append("\n");
         }
 
-        return buffer.toString();
+        pattern =  buffer.toString();
+        readSetup();
     }
 
     public void readSetup(){
@@ -77,6 +83,7 @@ public class RleReader {
 
         ///Invoke of function which is reading Cells
         readCells(lines[positionToStart + 1]);
+        gameState.setCells(cellsFromFile, setupWidth, setupHeight);
     }
 
     private void readCells(String cellsString) {
@@ -105,14 +112,14 @@ public class RleReader {
                         try {
                             amountOfCells = Integer.parseInt(tempPart.substring(0, iterator));
                         }catch (Exception e) {e.printStackTrace();}
-                       ///Checking state of the cell for the current pattern
+                        ///Checking state of the cell for the current pattern
                         boolean aliveness = tempPart.charAt(iterator) != 'b';
-                       /// Creating cells from current row
+                        /// Creating cells from current row
                         ///NOT SURE ABOUT indexation
                         for(int i = 0; i < amountOfCells; i++){
                             Cell toBeAdded = new Cell(colIndex,rowIndex);
                             toBeAdded.setAlive(aliveness);
-                         cellsFromFile.add(toBeAdded);
+                            cellsFromFile.add(toBeAdded);
                         }
                         tempPart = tempPart.substring(iterator+1);
                         iterator = -1;
@@ -121,9 +128,9 @@ public class RleReader {
                     else{
                         ///Checking for the end of the row
                         if(tempPart.charAt(iterator) == '#'){
-                         colIndex = 0;
-                         iterator = 0;
-                         break;
+                            colIndex = 0;
+                            iterator = 0;
+                            break;
                         }
                         ///Adding cell without number of repeats (With one repeat)
                         boolean aliveness = tempPart.charAt(iterator) != 'b';

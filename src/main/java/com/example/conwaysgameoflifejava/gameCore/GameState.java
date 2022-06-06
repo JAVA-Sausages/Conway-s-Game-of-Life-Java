@@ -45,22 +45,30 @@ public class GameState {
     public void setCells(ArrayList<Cell> cells, int cellXCount, int cellYCount, int spawnVal, int surviveVal) {
         CellRule.SPAWN.setValue(spawnVal);
         CellRule.KEEP.setValue(surviveVal);
-        this.cells = new ArrayList<>();
-        for (int i = 0; i < cellXCount; i++) {
+        //this.cells = new ArrayList<>();
+        /*for (int i = 0; i < cellXCount; i++) {
             this.cells.add(new ArrayList<>());
             ArrayList<Cell> cellsArr = this.cells.get(i);
             for (int j = 0; j < cellYCount; j++) {
                 cellsArr.add(new Cell(i, j));
             }
-        }
+        }*/
 
         for (ArrayList<Cell> row : this.cells) {
             for (Cell c : row) {
-                c.setAlive(false);
+               c.setAlive(false);
             }
         }
+        int posx = 1;
+        int lastPosY = 0;
         for (Cell cell : cells) {
-            this.cells.get(cell.getArrayPosX()).get(cell.getArrayPosY()).setAlive(cell.isAlive());
+            if(lastPosY != cell.getArrayPosY()) {
+                posx = 1;
+                lastPosY = cell.getArrayPosY();
+            }
+            System.out.println(posx + " " + cell.getArrayPosY() + " " + cell.isAlive());
+            this.cells.get(posx+10).get(cell.getArrayPosY()+10).setAlive(cell.isAlive());
+            posx++;
         }
         checkAllCellsDead();
         render();

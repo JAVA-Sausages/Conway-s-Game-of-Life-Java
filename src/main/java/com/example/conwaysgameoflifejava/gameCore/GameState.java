@@ -43,8 +43,8 @@ public class GameState {
     }
 
     public void setCells(ArrayList<Cell> cells, int cellXCount, int cellYCount, int spawnVal, int surviveVal) {
-        CellRule.SPAWN.setValue(spawnVal);
-        CellRule.KEEP.setValue(surviveVal);
+        //CellRule.SPAWN.setValue(spawnVal);
+        //CellRule.KEEP.setValue(surviveVal);
         //this.cells = new ArrayList<>();
         /*for (int i = 0; i < cellXCount; i++) {
             this.cells.add(new ArrayList<>());
@@ -66,7 +66,7 @@ public class GameState {
                 posx = 1;
                 lastPosY = cell.getArrayPosY();
             }
-            System.out.println(posx + " " + cell.getArrayPosY() + " " + cell.isAlive());
+           // System.out.println(posx + " " + cell.getArrayPosY() + " " + cell.isAlive());
             this.cells.get(posx+10).get(cell.getArrayPosY()+10).setAlive(cell.isAlive());
             posx++;
         }

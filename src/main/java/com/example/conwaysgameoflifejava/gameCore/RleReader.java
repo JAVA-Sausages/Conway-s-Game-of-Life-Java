@@ -20,8 +20,8 @@ public class RleReader {
     private int setupHeight;
     private ArrayList<Cell> cellsFromFile = new ArrayList<>();
 
-    public RleReader(String pattern, GameState gameState){
-        this.pattern = pattern; this.gameState = gameState;
+    public RleReader(GameState gameState){
+        this.gameState = gameState;
     }
 
     public void setPattern(String pattern) {
@@ -39,7 +39,7 @@ public class RleReader {
             buffer.append(sc.nextLine()).append("\n");
         }
 
-        pattern =  buffer.toString();
+        setPattern(buffer.toString());
         readSetup();
     }
 

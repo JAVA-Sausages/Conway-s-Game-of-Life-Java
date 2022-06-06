@@ -76,6 +76,11 @@ public class RleReader {
         }
 
         ///Invoke of function which is reading Cells
+        if(positionToStart+ 1 < lines.length-1)
+            for(int i = 0; i< (lines.length-1-positionToStart+-1);i++)
+            {
+                lines[positionToStart +1] += lines[positionToStart+2+i];
+            }
         readCells(lines[positionToStart + 1]);
         for(Cell k : cellsFromFile)
             System.out.println(k.getArrayPosY() + " " + k.isAlive());

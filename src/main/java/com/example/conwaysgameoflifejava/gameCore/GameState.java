@@ -42,8 +42,10 @@ public class GameState {
         checkAllCellsDead();
     }
     
-     public void setCells(ArrayList<Cell> celles, int cellXCount, int cellYCount)
+     public void setCells(ArrayList<Cell> celles, int cellXCount, int cellYCount, int spawnVal, int surviveVal)
     {
+        CellRule.SPAWN.setValue(spawnVal);
+        CellRule.KEEP.setValue(suriveVal);
         cells = new ArrayList<>();
         for (int i = 0; i < cellXCount; i++) {
             cells.add(new ArrayList<>());

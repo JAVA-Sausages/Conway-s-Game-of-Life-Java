@@ -82,8 +82,6 @@ public class RleReader {
                 lines[positionToStart +1] += lines[positionToStart+2+i];
             }
         readCells(lines[positionToStart + 1]);
-        for(Cell k : cellsFromFile)
-            System.out.println(k.getArrayPosY() + " " + k.isAlive());
         gameState.setCells(cellsFromFile, setupWidth, setupHeight, birthRule, saveRule);
     }
 

@@ -38,14 +38,14 @@
                </VBox.margin>
             </Button>
 
-            <Label fx:id="backgroundColorLabel" styleClass="label" text="Background color" />
+            <Label fx:id="backgroundColorLabel" styleClass="label" text="Cells color" />
             <ColorPicker fx:id="backgroundColorPicker" styleClass="button" onAction="#onSetBackgroundColor">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin>
             </ColorPicker>
 
-            <Label fx:id="cellsColorLabel" styleClass="label" text="Cells color" />
+            <Label fx:id="cellsColorLabel" styleClass="label" text="Background color" />
             <ColorPicker fx:id="cellsColorPicker" styleClass="button" onAction="#onSetCellColor">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />

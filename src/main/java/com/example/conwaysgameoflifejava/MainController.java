@@ -143,12 +143,8 @@ public class MainController {
     }
 
     public void onReadPattern(ActionEvent actionEvent) {
-//        https://copy.sh/life/examples/104p177.rle
         FileChooser fileChooser = new FileChooser();
         String path = fileChooser.showOpenDialog(MainApplication.stage).getAbsolutePath();
-
-        // TODO: delete after debugging
-        System.out.println(path);
 
         try {
             rleReader.readFile(path);

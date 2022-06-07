@@ -116,7 +116,7 @@ public class RleReader {
                         ///Getting number of pattern repeats
                         try {
                             amountOfCells = Integer.parseInt(tempPart.substring(0, iterator));
-                        }catch (Exception e) {e.printStackTrace();}
+                        } catch (Exception e) {e.printStackTrace();}
                         ///Checking state of the cell for the current pattern
                         boolean aliveness = tempPart.charAt(iterator) != 'b';
                         /// Creating cells from current row
@@ -131,6 +131,7 @@ public class RleReader {
                         flagForPart = false;
                     } else {
                         ///Checking for the end of the row
+
                         if(tempPart.charAt(iterator) == '#'){
                             colIndex = 0;
                             iterator = 0;

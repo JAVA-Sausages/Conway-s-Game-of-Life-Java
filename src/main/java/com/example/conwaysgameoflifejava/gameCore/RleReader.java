@@ -76,7 +76,14 @@ public class RleReader {
         }
 
         ///Invoke of function which is reading Cells
+        if(positionToStart+ 1 < lines.length-1)
+            for(int i = 0; i< (lines.length-1-positionToStart+-1);i++)
+            {
+                lines[positionToStart +1] += lines[positionToStart+2+i];
+            }
         readCells(lines[positionToStart + 1]);
+        for(Cell k : cellsFromFile)
+            System.out.println(k.getArrayPosY() + " " + k.isAlive());
         gameState.setCells(cellsFromFile, setupWidth, setupHeight, birthRule, saveRule);
     }
 
@@ -88,6 +95,11 @@ public class RleReader {
         int tempInt = -1;
         String[] parts = cellsString.split("[$]");
         int iterator = 0;
+        String empty = "";
+
+        String temp = parts[parts.length-1];
+        temp = temp.substring(0, temp.length()-1);
+        parts[parts.length-1] = temp;
 
         for(String part : parts){
             String tempPart = part + "#";

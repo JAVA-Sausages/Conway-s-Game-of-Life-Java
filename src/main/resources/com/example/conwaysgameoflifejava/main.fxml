@@ -25,7 +25,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin></Button>
 
-            <Label fx:id="noCellsLabel" styleClass="errorLabel" text="Create some cells to start" visible="false" managed="false" />
+            <Label fx:id="noCellsLabel" styleClass="error-label" text="Create cells to start" visible="false" managed="false" />
             <Button fx:id="startStopButton" onAction="#onStartStopSimulation" styleClass="button" text="Start">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0"/>

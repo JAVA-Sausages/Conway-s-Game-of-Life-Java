@@ -14,6 +14,6 @@
     -fx-text-fill: "ffffff";
 }
 
-.errorLabel {
+.error-label {
     -fx-text-fill: "cc0000";
 }
